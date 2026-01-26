@@ -1,0 +1,312 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Checkout - E-Commerce Store{% endblock %}
+
+{% block extra_css %}
+<style>
+    .checkout-header {
+        margin-bottom: 2rem;
+    }
+    
+    .checkout-header h1 {
+        color: #333;
+    }
+    
+    .checkout-container {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 2rem;
+    }
+    
+    @media (max-width: 768px) {
+        .checkout-container {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    .checkout-form {
+        background: white;
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .checkout-form h2 {
+        margin-bottom: 1.5rem;
+        color: #333;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #eee;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        color: #555;
+    }
+    
+    .form-group label .required {
+        color: #dc3545;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    
+    @media (max-width: 500px) {
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    /* Order Summary */
+    .order-summary {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        height: fit-content;
+        position: sticky;
+        top: 100px;
+    }
+    
+    .order-summary h2 {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid #eee;
+    }
+    
+    .order-items {
+        margin-bottom: 1.5rem;
+    }
+    
+    .order-item {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .order-item:last-child {
+        border-bottom: none;
+    }
+    
+    .order-item-image {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+    
+    .order-item-info {
+        flex: 1;
+    }
+    
+    .order-item-info h4 {
+        margin: 0 0 0.25rem 0;
+        font-size: 0.95rem;
+    }
+    
+    .order-item-info p {
+        color: #666;
+        font-size: 0.85rem;
+        margin: 0;
+    }
+    
+    .order-item-price {
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+        color: #555;
+    }
+    
+    .summary-row.total {
+        font-size: 1.3rem;
+        font-weight: bold;
+        color: #333;
+        border-top: 2px solid #eee;
+        padding-top: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .summary-row.total .amount {
+        color: #667eea;
+    }
+    
+    .checkout-form .btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.1rem;
+        margin-top: 1rem;
+    }
+    
+    .secure-checkout {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        color: #28a745;
+        font-size: 0.9rem;
+    }
+    
+    .back-link {
+        text-align: center;
+        margin-top: 1rem;
+    }
+    
+    .back-link a {
+        color: #667eea;
+        text-decoration: none;
+    }
+    
+    .back-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="checkout-header">
+    <h1>💳 Checkout</h1>
+</div>
+
+<div class="checkout-container">
+    <div class="checkout-form">
+        <form method="POST">
+            {% csrf_token %}
+            
+            <h2>Contact Information</h2>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="name">Full Name <span class="required">*</span></label>
+                    <input type="text" name="name" id="name" required placeholder="John Doe">
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address <span class="required">*</span></label>
+                    <input type="email" name="email" id="email" required placeholder="john@example.com">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" name="phone" id="phone" placeholder="(555) 123-4567">
+            </div>
+            
+            <h2>Shipping Address</h2>
+            
+            <div class="form-group">
+                <label for="address">Street Address</label>
+                <input type="text" name="address" id="address" placeholder="123 Main Street">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" name="city" id="city" placeholder="New York">
+                </div>
+                
+                <div class="form-group">
+                    <label for="zip">ZIP Code</label>
+                    <input type="text" name="zip" id="zip" placeholder="10001">
+                </div>
+            </div>
+            
+            <h2>Payment Information</h2>
+            
+            <div class="form-group">
+                <label for="card">Card Number</label>
+                <input type="text" name="card" id="card" placeholder="1234 5678 9012 3456">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="expiry">Expiry Date</label>
+                    <input type="text" name="expiry" id="expiry" placeholder="MM/YY">
+                </div>
+                
+                <div class="form-group">
+                    <label for="cvv">CVV</label>
+                    <input type="text" name="cvv" id="cvv" placeholder="123">
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">🔒 Place Order - ${{ total }}</button>
+            
+            <div class="secure-checkout">
+                🔒 Secure Checkout - Your data is protected
+            </div>
+            
+            <div class="back-link">
+                <a href="{% url 'cart' %}">← Return to Cart</a>
+            </div>
+        </form>
+    </div>
+    
+    <div class="order-summary">
+        <h2>Order Summary</h2>
+        
+        <div class="order-items">
+            {% for item in cart_items %}
+            <div class="order-item">
+                <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" class="order-item-image">
+                <div class="order-item-info">
+                    <h4>{{ item.product.name }}</h4>
+                    <p>Qty: {{ item.quantity }}</p>
+                </div>
+                <div class="order-item-price">${{ item.total_price }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span>${{ total }}</span>
+        </div>
+        
+        <div class="summary-row">
+            <span>Shipping</span>
+            <span>Free</span>
+        </div>
+        
+        <div class="summary-row">
+            <span>Tax</span>
+            <span>$0.00</span>
+        </div>
+        
+        <div class="summary-row total">
+            <span>Total</span>
+            <span class="amount">${{ total }}</span>
+        </div>
+    </div>
+</div>
+{% endblock %}
