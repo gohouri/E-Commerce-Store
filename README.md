@@ -11,7 +11,7 @@ To run the application:
 
 My purpose for creating this software was to gain hands-on experience with server-side web development, understand how frameworks like Django handle HTTP requests and responses, and learn how to integrate a database into a web application for persistent data storage.
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://www.loom.com/share/e585244a01c64b239e09749e45f4b6e8)
 
 # Web Pages
 
